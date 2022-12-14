@@ -6,6 +6,7 @@ import sqlite3
 class ProductosTabs:
 
     def principal(self,ventana,frame):
+        # Tabla de datos
         self.registro_datos_entry(frame)
         self.contenedor_tabla = Frame(ventana, height=350, width=400)
         self.tabla = ttk.Treeview(frame, height=16,
@@ -45,7 +46,7 @@ class ProductosTabs:
 
 
 
-
+    # Botones y entry para insertar en la tabla producto
     def registro_datos_entry(self,frame):
         Label(frame,text="REGISTRO DE PRODUCTOS",justify="center").place(x=640,y=25)
         Label(frame, text="Codigo").place(x=640, y=60)
@@ -83,41 +84,30 @@ class ProductosTabs:
         enviar_datos.place(x=700,y=425)
         enviar_datos["activebackground"] = "#000"
         enviar_datos["activeforeground"] = "#fff"
-        enviar_datos["bg"] = "#C84A2F"
+        enviar_datos["bg"] = "lightblue"
+
         enviar_datos.config(height=2)
 
-
-
         editar_datos = Button(frame, text="Seleccionar Datos", justify="center",command=self.seleccionar_datos)
-        editar_datos.place(x=440, y=370)
+        editar_datos.place(x=470, y=370)
         editar_datos["activebackground"] = "#000"
         editar_datos["activeforeground"] = "#fff"
-        editar_datos["bg"] = "#C84A2F"
+        editar_datos["bg"] = "lightblue"
         editar_datos.config(height=2)
 
         enviar_datos_actualizados = Button(frame, text="Enviar Datos Actualizados", justify="center",command=self.editar_producto)
-        enviar_datos_actualizados.place(x=440, y=420)
+        enviar_datos_actualizados.place(x=470, y=420)
         enviar_datos_actualizados["activebackground"] = "#000"
         enviar_datos_actualizados["activeforeground"] = "#fff"
-        enviar_datos_actualizados["bg"] = "#C84A2F"
+        enviar_datos_actualizados["bg"] = "lightblue"
         enviar_datos_actualizados.config(height=2)
 
-        eliminar_datos = Button(frame, text="Eliminar datos", justify="center")
-        eliminar_datos.place(x=180, y=370)
-        eliminar_datos["activebackground"] = "#000"
-        eliminar_datos["activeforeground"] = "#fff"
-        eliminar_datos["bg"] = "#C84A2F"
-        eliminar_datos.config(height=2)
-
         exportar_csv = Button(frame, text="Exportar Excel", justify="center")
-        exportar_csv.place(x=180, y=420)
+        exportar_csv.place(x=320, y=420)
         exportar_csv["activebackground"] = "#000"
         exportar_csv["activeforeground"] = "#fff"
-        exportar_csv["bg"] = "#C84A2F"
+        exportar_csv["bg"] = "lightblue"
         exportar_csv.config(height=2)
-
-    def botones_funciones(self,frame,ventana):
-        pass
 
     def validacion_datos(self):
         return not self.codigo_entry.get() or not self.producto_entry.get() or not self.marca_entry.get() or not self.precio_entry.get() \
@@ -137,6 +127,8 @@ class ProductosTabs:
             self.seccion_entry.delete(0,END)
             messagebox.showinfo("Aviso","Envio exitoso")
 
+
+    # Para enviar los datos modificados de la tabla producto
     def editar_producto(self):
         if self.validacion_datos() == True:
             messagebox.showerror("Aviso","No deben quedar campos vacios")
@@ -157,8 +149,15 @@ class ProductosTabs:
             self.stock_entry.delete(0,END)
             self.descripcion_entry.delete(0,END)
             messagebox.showinfo("Aviso","Datos actualizados")
-
+    # Selecciona los datos de la tabla productos, para luego introducirlos en los entry
     def seleccionar_datos(self):
+        self.producto_entry.delete(0, END)
+        self.codigo_entry.delete(0, END)
+        self.marca_entry.delete(0, END)
+        self.seccion_entry.delete(0, END)
+        self.precio_entry.delete(0, END)
+        self.stock_entry.delete(0, END)
+        self.descripcion_entry.delete(0, END)
         self.seleccion = self.tabla.focus()
         self.detalles = self.tabla.item(self.seleccion)
         self.valor = self.detalles.get("values")[0]
@@ -168,28 +167,18 @@ class ProductosTabs:
         self.valor5 = self.detalles.get("values")[4]
         self.valor6 = self.detalles.get("values")[5]
         self.valor7 = self.detalles.get("values")[6]
-        #self.valor8 = self.detalles.get("values")[7]
-        self.codigo_entry.insert(0,self.valor2)
-        self.producto_entry.insert(0,self.valor3)
-        self.marca_entry.insert(0,self.valor4)
-        self.seccion_entry.insert(0,self.valor5)
-        self.precio_entry.insert(0,self.valor6)
-        self.stock_entry.insert(0,self.valor7)
-        #self.descripcion_entry.insert(0,self.valor8)
+        self.codigo_entry.insert(0,self.valor)
+        self.producto_entry.insert(0,self.valor2)
+        self.marca_entry.insert(0,self.valor3)
+        self.seccion_entry.insert(0,self.valor4)
+        self.precio_entry.insert(0,self.valor5)
+        self.stock_entry.insert(0,self.valor6)
+        self.descripcion_entry.insert(0,self.valor7)
 
 
-
-
-        # INSERTAR ESTOS DATOS EN EL ENTRY CUANDO SE QUIERA CONSULTAR
-
-    def usuarios(self):
-        pass
-        # Nos dirige a otra ventana donde podemos ver a los usuarios registrados
 
     def excel(self):
         pass
         # Funcion que devuelve un excel con todos los productos
 
-    def eliminar_producto(self):
-        pass
-        # Revisar si hace falta
+
